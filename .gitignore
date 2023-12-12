@@ -1,0 +1,18 @@
+# .gitignore for Hexo
+
+# Ignore generated files
+*.log
+*.log.*
+node_modules
+public /
+
+# Ignore Hexo files
+.DS_Store
+Thumbs.db
+
+# Ignore deployment files
+.deploy*/
+.deploy.sh
+
+# Ignore local configuration file (if any)
+_config.local.yml

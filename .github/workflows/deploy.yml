@@ -1,0 +1,56 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          
+      - name: Install npm
+        run: npm install
+        
+      - name: Install Hexo
+        run: npm install hexo-cli -g
+        
+      - name: Install husky
+        run: npm install husky --save-dev
+             npx husky install
+
+      - name: clean publish_dir
+        run: hexo clean
+      
+      - name: Generate Site
+        run: hexo generate --debug
+             ls -R source
+             ls -R public
+        
+#      - name: Generate
+#        run: hexo generate
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          deploy_key: ${{ secrets.DELOPY_KEY }}
+          publish_dir: ./public
+          user_name: 'Revellen'
+          user_email: 'nirvana.kong7@gmail.com'
+          commit_message: 'Update site'
+#          repository_name: Revellen/revellen.github.io
+          external_repository: Revellen/revellen.github.io
+          publish_branch: 'main'
